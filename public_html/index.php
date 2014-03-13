@@ -7,7 +7,12 @@
 
     /* Controller */
     try {
-        // API calls will go here
+        // API calls
+        $homepage = Prismic::getDocument($ctx->getApi()->bookmark('homepage'));
+        $skills = $ctx->getApi()->forms()->skills->ref($ctx->getRef())->submit();
+        $works = $ctx->getApi()->forms()->works->ref($ctx->getRef())->submit();
+        $stuffido = $ctx->getApi()->forms()->{"stuff-i-do"}->ref($ctx->getRef())->submit();
+        $kindsofwork = $ctx->getApi()->forms()->everything->query('[[:d = at(document.type, "kind-of-work")]]')->ref($ctx->getRef())->submit();
     } catch (Guzzle\Http\Exception\BadResponseException $e) {
         Prismic::handlePrismicException($e); // We need to catch any network issue, and render it properly
     }
