@@ -24,7 +24,7 @@
 		Title and Meta Tags
 		=============================================== -->
 		<meta charset="utf-8">
-		<title>Me Flat | Flat Personal Portfolio</title>
+		<title>prismic.io's Bootstrap3 example</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -78,28 +78,28 @@
 					</button>
 
 					<!-- ======= LOGO (for small screens)========-->
-					<a class="navbar-brand visible-xs scrollto" href="#home">Jd</a>
+					<a class="navbar-brand visible-xs scrollto" href="#home"><?php echo $homepage->getStructuredText('homepage.website_title')->asText() ?></a>
 
 				</div>
 
 				<div id="site-nav" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 						<li>
-							<a href="#services" class="scrollto">What I Do</a>
+							<a href="#services" class="scrollto"><?php echo $homepage->getStructuredText('homepage.whatido_title')->asText() ?></a>
 						</li>
 						<li>
-							<a href="#about" class="scrollto">About Me</a>
+							<a href="#about" class="scrollto"><?php echo $homepage->getStructuredText('homepage.about_title')->asText() ?></a>
 						</li>
 						<li id="logo">
 							<a href="#home" class="scrollto">
-								<h1>J<span>D</span></h1>
+								<h1><?php echo substr($homepage->getStructuredText('homepage.website_title')->asText(), 0, 1) ?><span><?php echo substr($homepage->getStructuredText('homepage.website_title')->asText(), 1) ?></span></h1>
 							</a>
 						</li>
 						<li>
-							<a href="#portfolio" class="scrollto">My Works</a>
+							<a href="#portfolio" class="scrollto"><?php echo $homepage->getStructuredText('homepage.works_title')->asText() ?></a>
 						</li>
 						<li>
-							<a href="#contact" class="scrollto">Contact Me</a>
+							<a href="#contact" class="scrollto"><?php echo $homepage->getStructuredText('homepage.contact_title')->asText() ?></a>
 						</li>
 					</ul>
 				</div><!--End navbar-collapse -->
@@ -119,8 +119,8 @@
 
 					<div class="col-sm-6 text-col">
 
-						<h1>Hi, I am John Doe</h1>
-						<p>a visual and interaction designer</p>
+						<h1><?php echo $homepage->getStructuredText('homepage.page_title')->asText() ?></h1>
+						<?php echo $homepage->getStructuredText('homepage.page_lede')->asHtml($linkResolver) ?>
 
 					</div>
 
@@ -129,15 +129,13 @@
 							<img class="img-responsive img-center" src="assets/imac.png" alt=""/>
 							<div class="imac-screen flexslider">
 								<ul class="slides">
-									<li>
-										<img src="assets/placeholder-450x270.jpg" alt=""/>
-									</li>
-									<li>
-										<img src="assets/placeholder-450x270.jpg" alt=""/>
-									</li>
-									<li>
-										<img src="assets/placeholder-450x270.jpg" alt=""/>
-									</li>
+                  <?php
+                    foreach ($homepage->getGroup('homepage.introduction_carrousel')->getArray() as $elem) {
+                      echo '<li>';
+                      echo $elem['image']->getView('regular')->asHtml($linkResolver);
+                      echo '</li>';
+                    }
+                  ?>
 								</ul>
 							</div>
 						</div>
@@ -158,56 +156,25 @@
 
 				<header class="section-header text-center">
 
-					<h1 class="scrollimation scale-in">What I Do</h1>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br/> Aenean purus felis, condimentum et tempor in, commodo id nibh. Fusce a lacus arcu.</p>
+					<h1 class="scrollimation scale-in"><?php echo $homepage->getStructuredText('homepage.whatido_title')->asText() ?></h1>
+					<?php echo $homepage->getStructuredText('homepage.whatido_lede')->asHtml($linkResolver) ?>
 
 				</header>
 
 				<div class="row services">
 
-					<div class="col-md-3 col-sm-6 item scrollimation fade-up">
-
-						<div class="icon">
-							<img class="img-responsive img-center" src="assets/service1.png" alt="" />
-						</div>
-
-						<h2>Web &amp; App Design</h2>
-						<p>Donec quam velit, aliquam at tempor quis, blandit quis nisi. Proin orci enim, dictum vel leo eu, blandit vulputate turpis.</p>
-
-					</div>
-
-					<div class="col-md-3 col-sm-6 item scrollimation fade-up d1">
-
-						<div class="icon">
-							<img class="img-responsive img-center" src="assets/service2.png" alt="" />
-						</div>
-
-						<h2>Web Development</h2>
-						<p>Donec quam velit, aliquam at tempor quis, blandit quis nisi. Proin orci enim, dictum vel leo eu, blandit vulputate turpis.</p>
-
-					</div>
-
-					<div class="col-md-3 col-sm-6 item scrollimation fade-up d2">
-
-						<div class="icon">
-							<img class="img-responsive img-center" src="assets/service3.png" alt="" />
-						</div>
-
-						<h2>SEO Content</h2>
-						<p>Donec quam velit, aliquam at tempor quis, blandit quis nisi. Proin orci enim, dictum vel leo eu, blandit vulputate turpis.</p>
-
-					</div>
-
-					<div class="col-md-3 col-sm-6 item scrollimation fade-up d3">
-
-						<div class="icon">
-							<img class="img-responsive img-center" src="assets/service4.png" alt="" />
-						</div>
-
-						<h2>Mail Campaigns</h2>
-						<p>Donec quam velit, aliquam at tempor quis, blandit quis nisi. Proin orci enim, dictum vel leo eu, blandit vulputate turpis.</p>
-
-					</div>
+          <?php
+            for($i = 0 ; $i < count($stuffido) ; ++$i) {
+              $delay = ($i==0) ? '' : ' d'.$i; // to put a nice different delay on each one
+              echo '<div class="col-md-3 col-sm-6 item scrollimation fade-up'.$delay.'">';
+              echo '  <div class="icon">';
+              echo '    <img class="img-responsive img-center" src="'.$stuffido[$i]->getImageView('stuff-i-do.image', 'regular')->getUrl().'" alt="">';
+              echo '  </div>';
+              echo '  <h2>'.$stuffido[$i]->getStructuredText('stuff-i-do.title')->asText().'</h2>';
+              echo $stuffido[$i]->getStructuredText('stuff-i-do.lede')->asHtml($linkResolver);
+              echo '</div>';
+            }
+          ?>
 
 				</div>
 
@@ -224,8 +191,8 @@
 
 				<header class="section-header text-center">
 
-					<h1 class="scrollimation scale-in">Featured Project</h1>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br/> Aenean purus felis, condimentum et tempor in, commodo id nibh. Fusce a lacus arcu.</p>
+					<h1 class="scrollimation scale-in"><?php echo $homepage->getStructuredText('homepage.featured_title')->asText() ?></h1>
+					<?php echo $homepage->getStructuredText('homepage.featured_lede')->asHtml($linkResolver) ?>
 
 				</header>
 
@@ -234,9 +201,9 @@
 
 					<div class="img-wrapper">
 
-						<img class="img-responsive img-center" src="assets/placeholder-800x500.jpg" alt="" />
+						<img class="img-responsive img-center" src="<?php echo $homepage->getImageView('homepage.featured_image', 'regular')->getUrl(); ?>" alt="" />
 
-						<p class="text-center on-hover"><a class="btn btn-meflat icon-right" href="#external">Visit Website<i class="fa fa-arrow-right"></i></a></p>
+						<p class="text-center on-hover"><a class="btn btn-meflat icon-right" href="<?php echo $homepage->get('homepage.featured_link')->getUrl(); ?>" target="_blank">Visit Website<i class="fa fa-arrow-right"></i></a></p>
 
 					</div>
 				</div>
@@ -255,7 +222,7 @@
 
 				<header class="section-header text-center">
 
-					<h1 class="scrollimation scale-in">About Me</h1>
+					<h1 class="scrollimation scale-in"><?php echo $homepage->getStructuredText('homepage.about_title')->asText() ?></h1>
 
 				</header>
 
@@ -263,9 +230,9 @@
 
 					<div class="col-sm-8 col-sm-offset-2">
 
-						<img class="img-responsive img-center img-circle scrollimation fade-left" src="assets/about.jpg" alt="" />
+						<img class="img-responsive img-center img-circle scrollimation fade-left" src="<?php echo $homepage->getImageView('homepage.about_photo', 'regular')->getUrl() ?>" alt="" />
 
-						<p class="text-center scrollimation fade-in">Cras convallis nunc vitae massa convallis fermentum. Fusce feugiat, sem at congue rutrum, nisl mauris facilisis tellus, vel interdum nulla enim at purus. Integer metus justo, pellentesque ac bibendum a, dapibus sed nisl. Donec vitae suscipit lacus. Vivamus lacinia nisi eget erat luctus, id mollis nunc molestie. </p>
+						<p class="text-center scrollimation fade-in"><?php echo $homepage->getStructuredText('homepage.about_lede')->asText() ?></p>
 
 					</div>
 
@@ -273,7 +240,7 @@
 
 
 
-				<p class="text-center"><a class="btn btn-meflat scrollto white icon-left" href="#contact"><i class="fa fa-arrow-down"></i>Hire Me</a></p>
+				<p class="text-center"><a class="btn btn-meflat scrollto white icon-left" href="#contact"><i class="fa fa-arrow-down"></i><?php echo $homepage->getText('homepage.about_cta_label') ?></a></p>
 
 			</div>
 
@@ -287,24 +254,16 @@
 
 				<div class="row skills">
 
-					<h1 class="text-center scrollimation fade-in">I Got the Skills</h1>
+					<h1 class="text-center scrollimation fade-in"><?php echo $homepage->getStructuredText('homepage.skills_title')->asText() ?></h1>
 
-					<div class="col-sm-6 col-md-3 text-center">
-						<span class="chart" data-percent="80"><span class="percent">80</span></span>
-						<h2 class="text-center">Web Design</h2>
-					</div>
-					<div class="col-sm-6 col-md-3 text-center">
-						<span class="chart" data-percent="70"><span class="percent">70</span></span>
-						<h2 class="text-center">HTML / CSS</h2>
-					</div>
-					<div class="col-sm-6 col-md-3 text-center">
-						<span class="chart" data-percent="60"><span class="percent">60</span></span>
-						<h2 class="text-center">Graphic Design</h2>
-					</div>
-					<div class="col-sm-6 col-md-3 text-center">
-						<span class="chart" data-percent="90"><span class="percent">90</span></span>
-						<h2 class="text-center">UI / UX</h2>
-					</div>
+          <?php
+            foreach($skills as $skill) {
+              echo '<div class="col-sm-6 col-md-3 text-center">';
+              echo '  <span class="chart" data-percent="'.$skill->getText('skills.amount').'"><span class="percent">'.$skill->getText('skills.amount').'</span></span>';
+              echo '  <h2 class="text-center">'.$skill->getStructuredText('skills.title')->asText().'</h2>';
+              echo '</div>';
+            }
+          ?>
 
 				</div><!--End row -->
 
@@ -332,15 +291,13 @@
 						<li class="active scrollimation fade-right d1">
 							<a href="#" data-filter="*">All</a>
 						</li>
-						<li class="scrollimation fade-right">
-							<a href="#" data-filter=".web-design">Web Design</a>
-						</li>
-						<li class="scrollimation fade-left">
-							<a href="#" data-filter=".icons">Icons</a>
-						</li>
-						<li class="scrollimation fade-left d1">
-							<a href="#" data-filter=".ui-kits">UI Kits</a>
-						</li>
+            <?php
+              foreach($kindsofwork as $kindofwork) {
+                echo '<li class="scrollimation fade-left">';
+                echo '  <a href="#" data-filter=".'.$kindofwork->getSlug().'">'.$kindofwork->getStructuredText('kind-of-work.name')->asText().'</a>';
+                echo '</li>';
+              }
+            ?>
 					</ul>
 				</div><!--End portfolio filters -->
 
@@ -350,179 +307,41 @@
 
 				<div id="projects-container">
 
-					<!-- ==============================================
-					SINGLE PROJECT ITEM
-					=============================================== -->
-					<article class="project-item web-design">
+          <?php foreach($works as $work) { ?>
 
-						<img class="img-responsive project-image" src="assets/placeholder-320x210.jpg"  alt=""><!--Project thumb -->
+  					<article class="project-item <?php echo $work->get('work.kind')->getSlug() ?>">
 
-						<div class="hover-mask">
-							<h2 class="project-title">Project Title</h2><!--Project Title -->
-							<p>Subtitle</p><!--Project Subtitle -->
-						</div>
+  						<img class="img-responsive project-image" src="<?php echo $work->getImageView('work.image', 'regular')->getUrl() ?>"  alt=""><!--Project thumb -->
 
-						<!--==== Project Preview HTML ====-->
+  						<div class="hover-mask">
+  							<h2 class="project-title"><?php echo $work->getStructuredText('work.title')->asText() ?></h2><!--Project Title -->
+  							<p><?php echo $work->getStructuredText('work.subtitle')->asText() ?></p><!--Project Subtitle -->
+  						</div>
 
-						<div class="sr-only project-description"
-							data-category="Category"
-							data-date="Date"
-							data-client="Client"
-							data-link="www.example.com,http://www.google.com"
-							data-descr="A small description goes here."
-							data-images="assets/placeholder-750x430.jpg,assets/placeholder-750x430.jpg"
-						>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien risus, blandit at fringilla ac, varius sed dolor. Donec augue lacus, vulputate sed consectetur facilisis, interdum pharetra ligula. Nulla suscipit erat nibh, ut porttitor nisl dapibus eu.</p>
+  						<!--==== Project Preview HTML ====-->
 
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien risus, blandit at fringilla ac, varius sed dolor. Donec augue lacus, vulputate sed consectetur facilisis, interdum pharetra ligula. Nulla suscipit erat nibh, ut porttitor nisl dapibus eu.</p>
-							<p>Nam eget urna pellentesque nisl ultrices dapibus. Mauris accumsan vehicula nisl, sed tempus mauris facilisis eu. Donec a iaculis nisi, quis malesuada justo. Pellentesque ut enim sit amet ipsum dignissim egestas. Morbi tincidunt rhoncus urna eget placerat.</p>
-							<p class="text-right"><a class="btn btn-meflat icon-right" href="#external-link">Visit Website<i class="fa fa-arrow-right"></i></a></p>
-						</div>
+  						<div class="sr-only project-description"
+  							data-category="<?php echo $work->get('work.kind')->getSlug() ?>"
+  							data-date="<?php echo $work->getText('work.date') ?>"
+  							data-client="<?php echo $work->getText('work.client') ?>"
+                <?php $link = $work->get('work.link')->getUrl() ?>
+  							data-link="<?php echo $link ?>,<?php echo $link ?>"
+  							data-descr="<?php echo $work->getStructuredText('work.small_description')->asText() ?>"
+                <?php
+                  $bigimagelist = [];
+                  foreach($work->getGroup('work.carrousel')->getArray() as $bigimage) {
+                    array_push($bigimagelist, $bigimage['image']->getView('regular')->getUrl());
+                  }
+                ?>
+  							data-images="<?php echo implode(',', $bigimagelist) ?>"
+  						>
+  							<?php echo $work->getStructuredText('work.description')->asHtml($linkResolver) ?>
+  							<p class="text-right"><a class="btn btn-meflat icon-right" href="<?php echo $link ?>" target="_blank">Visit Website<i class="fa fa-arrow-right"></i></a></p>
+  						</div>
 
-					</article>
-					<!-- ==============================================
-					END PROJECT ITEM
-					=============================================== -->
+  					</article>
 
-					<article class="project-item icons">
-
-						<img class="img-responsive project-image" src="assets/placeholder-320x210.jpg"  alt=""><!--Project thumb -->
-
-						<div class="hover-mask">
-							<h2 class="project-title">Project Title</h2><!--Project Title -->
-							<p>Subtitle</p><!--Project Subtitle -->
-						</div>
-
-						<!--==== Project Preview HTML ====-->
-
-						<div class="sr-only project-description"
-							data-category="Category"
-							data-date="Date"
-							data-client="Client"
-							data-link="www.example.com,http://www.google.com"
-							data-descr="A small description goes here."
-							data-images="assets/placeholder-750x430.jpg,assets/placeholder-750x430.jpg"
-						>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien risus, blandit at fringilla ac, varius sed dolor. Donec augue lacus, vulputate sed consectetur facilisis, interdum pharetra ligula. Nulla suscipit erat nibh, ut porttitor nisl dapibus eu.</p>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien risus, blandit at fringilla ac, varius sed dolor. Donec augue lacus, vulputate sed consectetur facilisis, interdum pharetra ligula. Nulla suscipit erat nibh, ut porttitor nisl dapibus eu.</p>
-							<p>Nam eget urna pellentesque nisl ultrices dapibus. Mauris accumsan vehicula nisl, sed tempus mauris facilisis eu. Donec a iaculis nisi, quis malesuada justo. Pellentesque ut enim sit amet ipsum dignissim egestas. Morbi tincidunt rhoncus urna eget placerat.</p>
-							<p class="text-right"><a class="btn btn-meflat icon-right" href="#external-link">Visit Website<i class="fa fa-arrow-right"></i></a></p>
-						</div>
-
-					</article><!--End Project Item -->
-
-					<article class="project-item web-design">
-
-						<img class="img-responsive project-image" src="assets/placeholder-320x210.jpg"  alt=""><!--Project thumb -->
-
-						<div class="hover-mask">
-							<h2 class="project-title">Project Title</h2><!--Project Title -->
-							<p>Subtitle</p><!--Project Subtitle -->
-						</div>
-
-						<!--==== Project Preview HTML ====-->
-
-						<div class="sr-only project-description"
-							data-category="Category"
-							data-date="Date"
-							data-client="Client"
-							data-link="www.example.com,http://www.google.com"
-							data-descr="A small description goes here."
-							data-images="assets/placeholder-750x430.jpg,assets/placeholder-750x430.jpg"
-						>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien risus, blandit at fringilla ac, varius sed dolor. Donec augue lacus, vulputate sed consectetur facilisis, interdum pharetra ligula. Nulla suscipit erat nibh, ut porttitor nisl dapibus eu.</p>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien risus, blandit at fringilla ac, varius sed dolor. Donec augue lacus, vulputate sed consectetur facilisis, interdum pharetra ligula. Nulla suscipit erat nibh, ut porttitor nisl dapibus eu.</p>
-							<p>Nam eget urna pellentesque nisl ultrices dapibus. Mauris accumsan vehicula nisl, sed tempus mauris facilisis eu. Donec a iaculis nisi, quis malesuada justo. Pellentesque ut enim sit amet ipsum dignissim egestas. Morbi tincidunt rhoncus urna eget placerat.</p>
-							<p class="text-right"><a class="btn btn-meflat icon-right" href="#external-link">Visit Website<i class="fa fa-arrow-right"></i></a></p>
-						</div>
-
-					</article><!--End Project Item -->
-
-					<article class="project-item icons">
-
-						<img class="img-responsive project-image" src="assets/placeholder-320x210.jpg"  alt=""><!--Project thumb -->
-
-						<div class="hover-mask">
-							<h2 class="project-title">Project Title</h2><!--Project Title -->
-							<p>Subtitle</p><!--Project Subtitle -->
-						</div>
-
-						<!--==== Project Preview HTML ====-->
-
-						<div class="sr-only project-description"
-							data-category="Category"
-							data-date="Date"
-							data-client="Client"
-							data-link="www.example.com,http://www.google.com"
-							data-descr="A small description goes here."
-							data-images="assets/placeholder-750x430.jpg,assets/placeholder-750x430.jpg"
-						>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien risus, blandit at fringilla ac, varius sed dolor. Donec augue lacus, vulputate sed consectetur facilisis, interdum pharetra ligula. Nulla suscipit erat nibh, ut porttitor nisl dapibus eu.</p>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien risus, blandit at fringilla ac, varius sed dolor. Donec augue lacus, vulputate sed consectetur facilisis, interdum pharetra ligula. Nulla suscipit erat nibh, ut porttitor nisl dapibus eu.</p>
-							<p>Nam eget urna pellentesque nisl ultrices dapibus. Mauris accumsan vehicula nisl, sed tempus mauris facilisis eu. Donec a iaculis nisi, quis malesuada justo. Pellentesque ut enim sit amet ipsum dignissim egestas. Morbi tincidunt rhoncus urna eget placerat.</p>
-							<p class="text-right"><a class="btn btn-meflat icon-right" href="#external-link">Visit Website<i class="fa fa-arrow-right"></i></a></p>
-						</div>
-
-					</article><!--End Project Item -->
-
-					<article class="project-item ui-kits">
-
-						<img class="img-responsive project-image" src="assets/placeholder-320x210.jpg"  alt=""><!--Project thumb -->
-
-						<div class="hover-mask">
-							<h2 class="project-title">Project Title</h2><!--Project Title -->
-							<p>Subtitle</p><!--Project Subtitle -->
-						</div>
-
-						<!--==== Project Preview HTML ====-->
-
-						<div class="sr-only project-description"
-							data-category="Category"
-							data-date="Date"
-							data-client="Client"
-							data-link="www.example.com,http://www.google.com"
-							data-descr="A small description goes here."
-							data-images="assets/placeholder-750x430.jpg,assets/placeholder-750x430.jpg"
-						>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien risus, blandit at fringilla ac, varius sed dolor. Donec augue lacus, vulputate sed consectetur facilisis, interdum pharetra ligula. Nulla suscipit erat nibh, ut porttitor nisl dapibus eu.</p>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien risus, blandit at fringilla ac, varius sed dolor. Donec augue lacus, vulputate sed consectetur facilisis, interdum pharetra ligula. Nulla suscipit erat nibh, ut porttitor nisl dapibus eu.</p>
-							<p>Nam eget urna pellentesque nisl ultrices dapibus. Mauris accumsan vehicula nisl, sed tempus mauris facilisis eu. Donec a iaculis nisi, quis malesuada justo. Pellentesque ut enim sit amet ipsum dignissim egestas. Morbi tincidunt rhoncus urna eget placerat.</p>
-							<p class="text-right"><a class="btn btn-meflat icon-right" href="#external-link">Visit Website<i class="fa fa-arrow-right"></i></a></p>
-						</div>
-
-					</article><!--End Project Item -->
-
-					<article class="project-item ui-kits">
-
-						<img class="img-responsive project-image" src="assets/placeholder-320x210.jpg"  alt=""><!--Project thumb -->
-
-						<div class="hover-mask">
-							<h2 class="project-title">Project Title</h2><!--Project Title -->
-							<p>Subtitle</p><!--Project Subtitle -->
-						</div>
-
-						<!--==== Project Preview HTML ====-->
-
-						<div class="sr-only project-description"
-							data-category="Category"
-							data-date="Date"
-							data-client="Client"
-							data-link="www.example.com,http://www.google.com"
-							data-descr="A small description goes here."
-							data-images="assets/placeholder-750x430.jpg,assets/placeholder-750x430.jpg"
-						>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien risus, blandit at fringilla ac, varius sed dolor. Donec augue lacus, vulputate sed consectetur facilisis, interdum pharetra ligula. Nulla suscipit erat nibh, ut porttitor nisl dapibus eu.</p>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien risus, blandit at fringilla ac, varius sed dolor. Donec augue lacus, vulputate sed consectetur facilisis, interdum pharetra ligula. Nulla suscipit erat nibh, ut porttitor nisl dapibus eu.</p>
-							<p>Nam eget urna pellentesque nisl ultrices dapibus. Mauris accumsan vehicula nisl, sed tempus mauris facilisis eu. Donec a iaculis nisi, quis malesuada justo. Pellentesque ut enim sit amet ipsum dignissim egestas. Morbi tincidunt rhoncus urna eget placerat.</p>
-							<p class="text-right"><a class="btn btn-meflat icon-right" href="#external-link">Visit Website<i class="fa fa-arrow-right"></i></a></p>
-						</div>
-
-					</article><!--End Project Item -->
+          <?php } ?>
 
 				</div><!-- End projects -->
 
@@ -583,32 +402,6 @@
 
 		</section>
 		<!-- ==============================================
-		DRIBBLE
-		=============================================== -->
-		<section id="dribbble">
-			<h1 class="dribbble-button"><a href="#" target="_blank">My Dribbble Shots</a></h1>
-				<div class="row">
-					<div class="col-md-2 col-sm-4 col-xs-6">
-						<a href="#link" target="_blank"><img class="img-responsive" src="assets/placeholder-375x250.jpg"  alt=""></a>
-					</div>
-					<div class="col-md-2 col-sm-4 col-xs-6">
-						<a href="#link" target="_blank"><img class="img-responsive" src="assets/placeholder-375x250.jpg"  alt=""></a>
-					</div>
-					<div class="col-md-2 col-sm-4 col-xs-6">
-						<a href="#link" target="_blank"><img class="img-responsive" src="assets/placeholder-375x250.jpg"  alt=""></a>
-					</div>
-					<div class="col-md-2 col-sm-4 col-xs-6">
-						<a href="#link" target="_blank"><img class="img-responsive" src="assets/placeholder-375x250.jpg"  alt=""></a>
-					</div>
-					<div class="col-md-2 col-sm-4 col-xs-6">
-						<a href="#link" target="_blank"><img class="img-responsive" src="assets/placeholder-375x250.jpg"  alt=""></a>
-					</div>
-					<div class="col-md-2 col-sm-4 col-xs-6">
-						<a href="#link" target="_blank"><img class="img-responsive" src="assets/placeholder-375x250.jpg"  alt=""></a>
-					</div>
-				</div>
-		</section>
-		<!-- ==============================================
 		CONTACT
 		=============================================== -->
 		<section id="contact" class="dark-bg light-typo padding-top">
@@ -617,8 +410,8 @@
 
 				<header class="section-header text-center">
 
-					<h1 class="scrollimation scale-in">Drop Me a Line</h1>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br/> Aenean purus felis, condimentum et tempor in, commodo id nibh. Fusce a lacus arcu.</p>
+					<h1 class="scrollimation scale-in"><?php echo $homepage->getStructuredText('homepage.contact_title')->asText() ?></h1>
+					<?php echo $homepage->getStructuredText('homepage.contact_lede')->asHtml($linkResolver) ?>
 
 				</header>
 
@@ -659,16 +452,24 @@
 
 					<div class="col-sm-6">
 						<ul class="social-links">
-							<li class="scrollimation fade-right d4"><a href="#link"><i class="fa fa-twitter fa-fw"></i></a></li>
-							<li class="scrollimation fade-right d3"><a href="#link"><i class="fa fa-facebook fa-fw"></i></a></li>
-							<li class="scrollimation fade-right d2"><a href="#link"><i class="fa fa-google-plus fa-fw"></i></a></li>
-							<li class="scrollimation fade-right d1"><a href="#link"><i class="fa fa-dribbble fa-fw"></i></a></li>
-							<li class="scrollimation fade-right"><a href="#link"><i class="fa fa-linkedin fa-fw"></i></a></li>
+              <?php
+                if ($homepage->get('homepage.twitter')) {
+                  echo '<li class="scrollimation fade-right d4"><a target="_blank" href="'.$homepage->get('homepage.twitter')->getUrl().'"><i class="fa fa-twitter fa-fw"></i></a></li>';
+                }
+                if ($homepage->get('homepage.facebook')) {
+                  echo '<li class="scrollimation fade-right d3"><a target="_blank" href="'.$homepage->get('homepage.facebook')->getUrl().'"><i class="fa fa-facebook fa-fw"></i></a></li>';
+                }
+                if ($homepage->get('homepage.google_plus')) {
+                  echo '<li class="scrollimation fade-right d2"><a target="_blank" href="'.$homepage->get('homepage.google_plus')->getUrl().'"><i class="fa fa-google-plus fa-fw"></i></a></li>';
+                }
+                if ($homepage->get('homepage.dribbble')) {
+                  echo '<li class="scrollimation fade-right d1"><a target="_blank" href="'.$homepage->get('homepage.dribbble')->getUrl().'"><i class="fa fa-dribbble fa-fw"></i></a></li>';
+                }
+                if ($homepage->get('homepage.linkedin')) {
+                  echo '<li class="scrollimation fade-right"><a target="_blank" href="'.$homepage->get('homepage.linkedin')->getUrl().'"><i class="fa fa-linkedin fa-fw"></i></a></li>';
+                }
+              ?>
 						</ul>
-					</div>
-
-					<div class="col-sm-6 text-right scrollimation fade-in">
-						<p>&copy;2014 Qubico Theme by <a href="">Qthemes</a></p>
 					</div>
 
 				</div>
