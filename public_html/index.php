@@ -130,6 +130,7 @@
 							<div class="imac-screen flexslider">
 								<ul class="slides">
                   <?php
+                    // looping through the "Group" fragment of the carrousel images on the homepage
                     foreach ($homepage->getGroup('homepage.introduction_carrousel')->getArray() as $elem) {
                       echo '<li>';
                       echo $elem['image']->getView('regular')->asHtml($linkResolver);
@@ -164,6 +165,7 @@
 				<div class="row services">
 
           <?php
+            // looping on "Stuff I Do" documents
             for($i = 0 ; $i < count($stuffido) ; ++$i) {
               $delay = ($i==0) ? '' : ' d'.$i; // to put a nice different delay on each one
               echo '<div class="col-md-3 col-sm-6 item scrollimation fade-up'.$delay.'">';
@@ -257,6 +259,7 @@
 					<h1 class="text-center scrollimation fade-in"><?php echo $homepage->getStructuredText('homepage.skills_title')->asText() ?></h1>
 
           <?php
+            // looping through "Skill" documents
             foreach($skills as $skill) {
               echo '<div class="col-sm-6 col-md-3 text-center">';
               echo '  <span class="chart" data-percent="'.$skill->getText('skills.amount').'"><span class="percent">'.$skill->getText('skills.amount').'</span></span>';
@@ -294,6 +297,7 @@
             <?php
               foreach($kindsofwork as $kindofwork) {
                 echo '<li class="scrollimation fade-left">';
+                // cool stuff: I can use the "kind of work" document's slug as the CSS class to filter on
                 echo '  <a href="#" data-filter=".'.$kindofwork->getSlug().'">'.$kindofwork->getStructuredText('kind-of-work.name')->asText().'</a>';
                 echo '</li>';
               }
@@ -324,10 +328,11 @@
   							data-category="<?php echo $work->get('work.kind')->getSlug() ?>"
   							data-date="<?php echo $work->getText('work.date') ?>"
   							data-client="<?php echo $work->getText('work.client') ?>"
-                <?php $link = $work->get('work.link')->getUrl() ?>
+                <?php $link = $work->get('work.link')->getUrl() // just because we'll have to repeat it twice right after ?>
   							data-link="<?php echo $link ?>,<?php echo $link ?>"
   							data-descr="<?php echo $work->getStructuredText('work.small_description')->asText() ?>"
                 <?php
+                  // building the comma-separated list of the URLs of the images in the carrousel
                   $bigimagelist = [];
                   foreach($work->getGroup('work.carrousel')->getArray() as $bigimage) {
                     array_push($bigimagelist, $bigimage['image']->getView('regular')->getUrl());
@@ -453,6 +458,7 @@
 					<div class="col-sm-6">
 						<ul class="social-links">
               <?php
+                // we check that the fragment exists before echoing the link and image; that way, if you're not on Facebook, the Facebook link doesn't show, for instance
                 if ($homepage->get('homepage.twitter')) {
                   echo '<li class="scrollimation fade-right d4"><a target="_blank" href="'.$homepage->get('homepage.twitter')->getUrl().'"><i class="fa fa-twitter fa-fw"></i></a></li>';
                 }
