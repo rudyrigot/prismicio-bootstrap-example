@@ -59,4 +59,3 @@ if(isset($_POST['submitted'])) {
 		$emailSent = true;
 	}
 }
-?>
