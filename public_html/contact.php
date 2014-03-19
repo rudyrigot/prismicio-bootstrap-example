@@ -2,8 +2,6 @@
 $emailTo = 'rudy@prismic.io';
 $siteTitle = 'prismic.io\'s Bootstrap3 example';
 
-error_reporting(E_ALL ^ E_NOTICE); // hide all basic notices from PHP
-
 //If the form is submitted
 if(isset($_POST['submitted'])) {
 
