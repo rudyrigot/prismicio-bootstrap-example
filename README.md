@@ -1,6 +1,6 @@
 ## Bootstrap example, plain PHP
 
-This is a example project made by the prismic.io team as a showcase to help developers get started. By default, it consumes the content repository available at [https://bootstrap.prismic.io/api](https://bootstrap.prismic.io/api).
+This is an example project made by the prismic.io team as a showcase to help developers get started. By default, it consumes the content repository available at [https://bootstrap.prismic.io/api](https://bootstrap.prismic.io/api).
 
 ### Get started
 
